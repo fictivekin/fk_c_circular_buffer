@@ -1,0 +1,7 @@
+i 1 1 // init
+i 32 4 // init
+f // is full
+e // empty
+g // count
+L // fLush
+u // pUsh

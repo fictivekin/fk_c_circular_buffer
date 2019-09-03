@@ -1,0 +1,4 @@
+*.o
+test/test_runner
+fuzz/findings
+fuzz/fuzz_driver

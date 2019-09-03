@@ -1,0 +1,14 @@
+#
+# AFL dictionary for fuzzer
+# -----------------------------
+
+init="i 1 1\x0a"
+fLush="L\x0a"
+pUsh="u\x0a"
+pEek="E 1\x0a"
+pushN="N 1\x0a"
+popfifo="o\x0a"
+popfifoN="f 1\x0a"
+remove="r 1\x0a"
+poplifo="l\x0a"
+poplifon="I 1\x0a"
