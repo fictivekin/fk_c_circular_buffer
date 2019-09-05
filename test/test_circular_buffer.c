@@ -286,6 +286,39 @@ void test_remove() {
 	assert(ret == CIRC_BUF_BUFFER_EMPTY);
 }
 
+void test_copy_buffer() {
+	circularBuffer_t dst, src;
+	char dst_storage[16];
+	char src_storage[8];
+	char data;
+	// char desired_output[] = {1, 2, 3, 4};
+	int ret;
+
+	circularBuffer_init(&dst, dst_storage, sizeof(dst_storage), 1);
+	circularBuffer_init(&src, src_storage, sizeof(src_storage), 1);
+
+	data = 1;
+	ret = circularBuffer_push(&src, &data, NULL);
+	data = 2;
+	ret = circularBuffer_push(&src, &data, NULL);
+	data = 3;
+	ret = circularBuffer_push(&src, &data, NULL);
+	data = 4;
+	ret = circularBuffer_push(&src, &data, NULL);
+
+	ret = circularBuffer_copy(&dst, &src, NULL);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(memcmp(src.p_data_location, dst.p_data_location, 4) == 0);
+
+
+	circularBuffer_init(&dst, dst_storage, 2, 1);
+	ret = circularBuffer_copy(&dst, &src, NULL);
+	assert(ret == CIRC_BUF_SIZE_ERROR);
+
+	ret = circularBuffer_copy(NULL, &src, NULL);
+	assert(ret == CIRC_BUF_ADDR_ERROR);
+}
+
 int main() {
 	test_init();
 	test_push_peek_pop();
@@ -294,5 +327,6 @@ int main() {
 	test_pop_fifo_n();
 	test_remove();
 	test_pop_lifo_n();
+	test_copy_buffer();
 	return 0;
 }

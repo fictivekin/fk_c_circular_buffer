@@ -296,5 +296,21 @@ int circularBuffer_remove_records(circularBuffer_t *p_buffer, size_t n);
  *
  ******************************************************************************/
 int circularBuffer_max_slots(const circularBuffer_t *p_buffer, size_t *result);
+
+/**
+ * Copy \p src buffer into \p dst. \p src and \p dst must both have been
+ * initialized with circularBuffer_init, and \p dst->p_data_location must be
+ * at least as large as \p src->p_data_location. \p dst->p_data_location must
+ * not overlap \p src->p_data_location
+ *
+ * @param[out] Pointer to destination buffer
+ * @param[int] Poiner to source buffer
+ * @retval CIRC_BUF_ADDR_ERROR if \p dst or \p src is `NULL`
+ * @retval CIRC_BUF_SIZE_ERROR if destination buffer is smaller than source buffer
+ * @retval CIRC_BUF_NO_ERROR on success
+ *
+ ******************************************************************************/
+int circularBuffer_copy(circularBuffer_t *dst, const circularBuffer_t *src, memcpy_t fp_memcpy);
+
 #endif
 /*-------------------------EOF----------------------------------------------*/

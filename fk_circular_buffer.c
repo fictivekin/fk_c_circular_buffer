@@ -366,6 +366,30 @@ int circularBuffer_max_slots(const circularBuffer_t *p_buffer, size_t *result)
 	*result = p_buffer->buffer_slots;
 	return CIRC_BUF_NO_ERROR;
 }
+
+int circularBuffer_copy(circularBuffer_t *dst, const circularBuffer_t *src, memcpy_t fp_memcpy)
+{
+	size_t dst_buffer_size;
+	size_t src_buffer_size;
+	VERIFY_ADDR(dst);
+	VERIFY_ADDR(src);
+	fp_memcpy = fp_memcpy ? fp_memcpy : memcpy;
+
+	dst_buffer_size = dst->buffer_slots * dst->data_size;
+	src_buffer_size = src->buffer_slots * src->data_size;
+	if (dst_buffer_size < src_buffer_size) {
+		return CIRC_BUF_SIZE_ERROR;
+	}
+
+	dst->data_size = src->data_size;
+	dst->buffer_slots = src->buffer_slots;
+	dst->start = src->start;
+	dst->end = src->end;
+	dst->count = src->count;
+	fp_memcpy(dst->p_data_location, src->p_data_location, src_buffer_size);
+
+	return CIRC_BUF_NO_ERROR;
+}
 /*-------------------------LOCAL FUNCTIONS-----------------------------------*/
 
 
