@@ -8,6 +8,9 @@ void test_init() {
 	circularBuffer_t buf;
 	int ret;
 	char foo[32];
+	ret = circularBuffer_init(&buf, foo, sizeof(foo), 15);
+	assert(ret == CIRC_BUF_SIZE_ERROR);
+
 	ret = circularBuffer_init(&buf, 0, 0, 0);
 	assert(ret == CIRC_BUF_SIZE_ERROR);
 
@@ -319,6 +322,29 @@ void test_copy_buffer() {
 	assert(ret == CIRC_BUF_ADDR_ERROR);
 }
 
+void test_flush() {
+	circularBuffer_t buf;
+	int ret;
+	char foo[32];
+	size_t res;
+	char data = 42;
+	ret = circularBuffer_init(&buf, foo, sizeof(foo), 1);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_push(&buf, &data, NULL);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_getCount(&buf, &res);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(res == 1);
+	ret = circularBuffer_flush(&buf);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_getCount(&buf, &res);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(res == 0);
+	ret = circularBuffer_max_slots(&buf, &res);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(res == sizeof(foo));
+}
+
 int main() {
 	test_init();
 	test_push_peek_pop();
@@ -328,5 +354,6 @@ int main() {
 	test_remove();
 	test_pop_lifo_n();
 	test_copy_buffer();
+	test_flush();
 	return 0;
 }
