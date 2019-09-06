@@ -131,6 +131,8 @@ Functions</h2></td></tr>
 <tr class="separator:af73797d2014351d5bc5aedda80d47e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c63cfda39ef05b7403132aad66b0a8a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fk__circular__buffer_8h.html#a6c63cfda39ef05b7403132aad66b0a8a">circularBuffer_max_slots</a> (const <a class="el" href="fk__circular__buffer_8h.html#a65e7c45d7b93bbc800d446313915c3ef">circularBuffer_t</a> *p_buffer, size_t *result)</td></tr>
 <tr class="separator:a6c63cfda39ef05b7403132aad66b0a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a377bfa35cf22de8c7a825becd30d9790"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fk__circular__buffer_8h.html#a377bfa35cf22de8c7a825becd30d9790">circularBuffer_copy</a> (<a class="el" href="fk__circular__buffer_8h.html#a65e7c45d7b93bbc800d446313915c3ef">circularBuffer_t</a> *dst, const <a class="el" href="fk__circular__buffer_8h.html#a65e7c45d7b93bbc800d446313915c3ef">circularBuffer_t</a> *src, <a class="el" href="fk__circular__buffer_8h.html#a9046ec40bf754849dcfcee2c688cd66c">memcpy_t</a> fp_memcpy)</td></tr>
+<tr class="separator:a377bfa35cf22de8c7a825becd30d9790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Module to turn static array into circular buffer. </p>
@@ -902,6 +904,57 @@ Functions</h2></td></tr>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">CIRC_BUF_ADDR_ERROR</td><td>if <code>p_buffer</code> or <code>result</code> is <code>NULL</code> </td></tr>
+    <tr><td class="paramname">CIRC_BUF_NO_ERROR</td><td>on success </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a377bfa35cf22de8c7a825becd30d9790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377bfa35cf22de8c7a825becd30d9790">&#9670;&nbsp;</a></span>circularBuffer_copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int circularBuffer_copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fk__circular__buffer_8h.html#a65e7c45d7b93bbc800d446313915c3ef">circularBuffer_t</a> *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="fk__circular__buffer_8h.html#a65e7c45d7b93bbc800d446313915c3ef">circularBuffer_t</a> *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="fk__circular__buffer_8h.html#a9046ec40bf754849dcfcee2c688cd66c">memcpy_t</a>&#160;</td>
+          <td class="paramname"><em>fp_memcpy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copy <code>src</code> buffer into <code>dst</code>. <code>src</code> and <code>dst</code> must both have been initialized with circularBuffer_init, and <code>dst-&gt;p_data_location</code> must be at least as large as <code>src-&gt;p_data_location</code>. <code>dst-&gt;p_data_location</code> must not overlap <code>src-&gt;p_data_location</code> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">dst</td><td>Pointer to destination buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>Pointer to source buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fp_memcpy</td><td>pointer to the function to use to copy memory. If <code>NULL</code> is passed, <code>memcpy</code> will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">CIRC_BUF_ADDR_ERROR</td><td>if <code>dst</code> or <code>src</code> is <code>NULL</code> </td></tr>
+    <tr><td class="paramname">CIRC_BUF_SIZE_ERROR</td><td>if destination buffer is smaller than source buffer </td></tr>
     <tr><td class="paramname">CIRC_BUF_NO_ERROR</td><td>on success </td></tr>
   </table>
   </dd>

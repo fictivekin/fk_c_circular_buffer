@@ -34,7 +34,7 @@
  * attempting to add data to an already-full buffer will return an error.
  *
  * @section install_sec Installation
- * Simply copy fk_circular_buffer.c and fk_circular_buffer.h into your project
+ * Simply copy fk_circular_buffer.c and fk_circular_buffer.h into your project: https://github.com/fictivekin/fk_c_circular_buffer
  *
  */
 
@@ -303,8 +303,10 @@ int circularBuffer_max_slots(const circularBuffer_t *p_buffer, size_t *result);
  * at least as large as \p src->p_data_location. \p dst->p_data_location must
  * not overlap \p src->p_data_location
  *
- * @param[out] Pointer to destination buffer
- * @param[int] Poiner to source buffer
+ * @param[out] dst Pointer to destination buffer
+ * @param[in] src Pointer to source buffer
+ * @param[in] fp_memcpy pointer to the function to use to copy memory. If `NULL` is
+ 	passed, `memcpy` will be used.
  * @retval CIRC_BUF_ADDR_ERROR if \p dst or \p src is `NULL`
  * @retval CIRC_BUF_SIZE_ERROR if destination buffer is smaller than source buffer
  * @retval CIRC_BUF_NO_ERROR on success
