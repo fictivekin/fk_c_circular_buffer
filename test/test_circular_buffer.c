@@ -392,11 +392,57 @@ void test_flush() {
 	assert(res == sizeof(foo));
 }
 
+void test_wrapped_pop_fifo() {
+	circularBuffer_t buf;
+	int ret;
+	char buf_storage[8];
+	char output[8];
+
+	const size_t recordCount = 4;
+	const size_t recordSize = sizeof(output) / recordCount;
+	unsigned int i;
+	for (i = 0; i < sizeof(output); i++) {
+		output[i] = i;
+	}
+	ret = circularBuffer_init(&buf, buf_storage, sizeof(buf_storage), recordSize);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_push(&buf, &output, NULL);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	ret = circularBuffer_push_n(&buf, &output, 4, NULL);
+	assert(ret == CIRC_BUF_NO_ERROR);
+
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(output[0] == 0);
+	assert(output[1] == 1);
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(output[0] == 2);
+	assert(output[1] == 3);
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(output[0] == 4);
+	assert(output[1] == 5);
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_NO_ERROR);
+	assert(output[0] == 6);
+	assert(output[1] == 7);
+
+	ret = circularBuffer_popFIFO(&buf, output, memcpy);
+	assert(ret == CIRC_BUF_BUFFER_EMPTY);
+
+	ret = circularBuffer_push_n(&buf, &output, 4, NULL);
+	assert(ret == CIRC_BUF_NO_ERROR);
+}
+
 int main() {
 	test_init();
 	test_push_peek_pop();
 	test_wrapping_peek();
 	test_wrapped_push();
+	test_wrapped_pop_fifo();
 	test_pop_fifo_n();
 	test_remove();
 	test_pop_lifo_n();
