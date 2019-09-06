@@ -13,6 +13,19 @@ fuzz/fuzz_driver: $(ODIR)/fk_circular_buffer.o fuzz/fuzz_driver.c
 test/test_runner: $(ODIR)/fk_circular_buffer.o test/test_circular_buffer.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+coverage: $(ODIR)/fk_circular_buffer-test-gcov
+	  $(ODIR)/fk_circular_buffer-test-gcov
+	  gcov -o $(ODIR)/fk_circular_buffer-gcov.o fk_circular_buffer.c
+
+$(ODIR)/fk_circular_buffer-test-gcov: $(ODIR)/fk_circular_buffer-test-gcov.o $(ODIR)/fk_circular_buffer-gcov.o
+	$(CC) -o $(ODIR)/fk_circular_buffer-test-gcov --coverage $^ $(CFLAGS)
+
+$(ODIR)/fk_circular_buffer-test-gcov.o: test/test_circular_buffer.c fk_circular_buffer.h
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+$(ODIR)/fk_circular_buffer-gcov.o: fk_circular_buffer.c fk_circular_buffer.h
+	$(CC) -o $@ --coverage -c $< $(CFLAGS)
+
 .PHONY: test
 
 test: test/test_runner
