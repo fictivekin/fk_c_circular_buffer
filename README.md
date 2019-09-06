@@ -7,7 +7,7 @@ This is a module for turning a static array into a circular buffer, suitable for
 See <https://fictivekin.github.io/fk_c_circular_buffer/> for documentation.
 
 ## Install
-Simply copy fk_circular_buffer.c and fk_circular_buffer.h into your source tree and add them to your build tool.
+Simply copy `fk_circular_buffer.c` and `fk_circular_buffer.h` into your source tree and add them to your build tool.
 
 ## Run tests
 `make test`
