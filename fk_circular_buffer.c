@@ -219,7 +219,6 @@ int circularBuffer_peek(const circularBuffer_t *p_buffer, void * FK_CB_KW_RESTRI
 
 int circularBuffer_popFIFO(circularBuffer_t * p_buffer, void * FK_CB_KW_RESTRICT p_data, memcpy_t fp_memcpy)
 {
-	int ret;
 	VERIFY_ADDR(p_buffer);
 	fp_memcpy = fp_memcpy ? fp_memcpy : memcpy;
 
@@ -227,10 +226,7 @@ int circularBuffer_popFIFO(circularBuffer_t * p_buffer, void * FK_CB_KW_RESTRICT
 		return CIRC_BUF_BUFFER_EMPTY;
 	}
 
-	ret = circularBuffer_peek(p_buffer, p_data, 1, fp_memcpy);
-	if (ret != CIRC_BUF_NO_ERROR) {
-		return ret;
-	}
+	circularBuffer_peek(p_buffer, p_data, 1, fp_memcpy);
 
 	p_buffer->count--;
 	p_buffer->start++;
@@ -243,24 +239,17 @@ int circularBuffer_popFIFO(circularBuffer_t * p_buffer, void * FK_CB_KW_RESTRICT
 
 int circularBuffer_popFIFO_n(circularBuffer_t *p_buffer, void * FK_CB_KW_RESTRICT p_data, size_t n, memcpy_t fp_memcpy)
 {
-	int ret;
-
 	VERIFY_ADDR(p_buffer);
-	VERIFY_SIZE(n);
 	fp_memcpy = fp_memcpy ? fp_memcpy : memcpy;
-
-	if(0 == p_buffer->count) {
-		return CIRC_BUF_BUFFER_EMPTY;
-	}
 
 	if(n > p_buffer->count) {
 		n = p_buffer->count;
 	}
-
-	ret = circularBuffer_peek(p_buffer, p_data, n, fp_memcpy);
-	if (ret != CIRC_BUF_NO_ERROR) {
-		return ret;
+	if (0 == n) {
+		return CIRC_BUF_BUFFER_EMPTY;
 	}
+
+	circularBuffer_peek(p_buffer, p_data, n, fp_memcpy);
 
 	p_buffer->count -= n;
 	p_buffer->start = (p_buffer->start + n) % p_buffer->buffer_slots;
