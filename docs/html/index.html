@@ -69,7 +69,7 @@ $(function() {
 </div>
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
-<p>This is a module for turning a static array into a circular buffer, suitable for use on embedded systems (no dynamic allocations are performed; a caller-supplied <code>memcpy</code> is used; no dependencies other than a C89 compiler and standard library) Data is never overwritten; attempting to add data to an already-full buffer will return an error.</p>
+<p>This is a module for turning a preallocated array into a circular buffer, suitable for use on embedded systems (no dynamic allocations are performed; a caller-supplied <code>memcpy</code> is used; no dependencies other than a C89 compiler and standard library) Data is never overwritten; attempting to add data to an already-full buffer will return an error.</p>
 <h1><a class="anchor" id="install_sec"></a>
 Installation</h1>
 <p>Simply copy <a class="el" href="fk__circular__buffer_8c.html" title="Module to turn static array into circular buffer. ">fk_circular_buffer.c</a> and <a class="el" href="fk__circular__buffer_8h.html" title="Module to turn static array into circular buffer. ">fk_circular_buffer.h</a> into your project: <a href="https://github.com/fictivekin/fk_c_circular_buffer">https://github.com/fictivekin/fk_c_circular_buffer</a> </p>
