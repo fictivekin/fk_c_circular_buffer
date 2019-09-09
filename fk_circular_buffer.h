@@ -27,7 +27,7 @@
  *
  * @section intro_sec Introduction
  *
- * This is a module for turning a static array into a circular buffer,
+ * This is a module for turning a preallocated array into a circular buffer,
  * suitable for use on embedded systems (no dynamic allocations are
  * performed; a caller-supplied `memcpy` is used; no dependencies other
  * than a C89 compiler and standard library) Data is never overwritten;
